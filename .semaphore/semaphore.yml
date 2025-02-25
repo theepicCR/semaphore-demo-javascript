@@ -15,6 +15,7 @@ blocks:
       prologue:
         commands:
           - checkout
+          - nvm install 16.16.0
           - nvm use
           - node --version
           - npm --version
@@ -22,14 +23,12 @@ blocks:
         - name: client npm install and cache
           commands:
             - cd src/client
-            - nvm install 16.16.0
             - 'cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master'
             - npm install
             - cache store client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json) node_modules
         - name: server npm install and cache
           commands:
             - cd src/server
-            - nvm install 16.16.0
             - 'cache restore server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-node-modules-$SEMAPHORE_GIT_BRANCH,server-node-modules-master'
             - npm install --legacy-peer-deps
             - cache store server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json) node_modules
